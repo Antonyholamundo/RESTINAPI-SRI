@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Facturación Electrónica SRI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-['Inter'] bg-slate-950 text-slate-100 min-h-screen">
+
+  <!-- Login Screen -->
+  <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-blue-600/20 border border-blue-500/30 mb-4">
+          <i class="fas fa-receipt text-3xl text-blue-400"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-white">Facturación SRI</h1>
+        <p class="text-slate-400 mt-1 text-sm">Sistema de emisión de comprobantes electrónicos</p>
+      </div>
+
+      <div class="bg-slate-800/70 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 shadow-2xl">
+        <form id="login-form">
+          <div class="mb-5">
+            <label for="email" class="block text-sm font-medium text-slate-300 mb-1.5">Correo electrónico</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fas fa-envelope text-sm"></i></span>
+              <input type="email" id="email" required placeholder="empresa@ejemplo.com"
+                class="w-full pl-10 pr-4 py-2.5 bg-slate-900/60 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/60 transition">
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="password" class="block text-sm font-medium text-slate-300 mb-1.5">Contraseña</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500"><i class="fas fa-lock text-sm"></i></span>
+              <input type="password" id="password" required placeholder="••••••••"
+                class="w-full pl-10 pr-4 py-2.5 bg-slate-900/60 border border-slate-600/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/60 transition">
+            </div>
+          </div>
+          <button type="submit" id="btn-login"
+            class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-500/30 transition-all duration-200 flex items-center justify-center gap-2">
+            <i class="fas fa-right-to-bracket text-sm"></i>
+            <span>Ingresar al Sistema</span>
+          </button>
+          <p class="text-red-400 text-sm text-center mt-3 min-h-[1.25rem]" id="login-error"></p>
+        </form>
+      </div>
+
+      <p class="text-center text-slate-600 text-xs mt-6">SRI - Servicio de Rentas Internas del Ecuador</p>
+    </div>
+  </div>
+
+  <!-- App Layout -->
+  <div id="app-layout" class="hidden min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col flex-shrink-0">
+      <!-- Logo -->
+      <div class="h-16 flex items-center gap-3 px-5 border-b border-slate-800">
+        <div class="w-9 h-9 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-receipt text-blue-400 text-sm"></i>
+        </div>
+        <div class="min-w-0">
+          <p class="text-sm font-bold text-white truncate">Facturación SRI</p>
+          <p class="text-[10px] text-slate-500 uppercase tracking-wider">Comprobantes Electrónicos</p>
+        </div>
+      </div>
+
+      <!-- Nav -->
+      <nav class="flex-1 py-4 px-3 space-y-1 overflow-y-auto" id="sidebar-nav">
+        <a href="#/dashboard" class="nav-link active" data-route="dashboard">
+          <i class="fas fa-chart-pie w-5 text-center"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#/invoice/new" class="nav-link" data-route="invoice-new">
+          <i class="fas fa-file-invoice w-5 text-center"></i>
+          <span>Nueva Factura</span>
+        </a>
+        <a href="#/invoices" class="nav-link" data-route="invoices">
+          <i class="fas fa-list w-5 text-center"></i>
+          <span>Historial</span>
+        </a>
+        <a href="#/clients" class="nav-link" data-route="clients">
+          <i class="fas fa-users w-5 text-center"></i>
+          <span>Clientes</span>
+        </a>
+        <a href="#/products" class="nav-link" data-route="products">
+          <i class="fas fa-box w-5 text-center"></i>
+          <span>Productos</span>
+        </a>
+      </nav>
+
+      <!-- User footer -->
+      <div class="p-4 border-t border-slate-800">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-9 h-9 rounded-full bg-blue-600/30 flex items-center justify-center text-sm font-bold text-blue-300 flex-shrink-0" id="user-avatar">U</div>
+          <div class="min-w-0">
+            <p class="text-sm font-medium text-white truncate" id="user-name">Usuario</p>
+            <p class="text-xs text-slate-500 truncate" id="user-email">correo@ejemplo.com</p>
+          </div>
+        </div>
+        <button id="btn-logout" class="w-full flex items-center gap-2 px-3 py-2 text-sm text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition">
+          <i class="fas fa-right-from-bracket text-xs"></i>
+          <span>Cerrar Sesión</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <div class="flex-1 flex flex-col min-w-0">
+      <!-- Topbar -->
+      <header class="h-16 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800 flex items-center justify-between px-6">
+        <div class="flex items-center gap-3">
+          <button id="sidebar-toggle" class="lg:hidden text-slate-400 hover:text-white transition">
+            <i class="fas fa-bars text-lg"></i>
+          </button>
+          <h2 class="text-lg font-semibold text-white" id="page-title">Dashboard</h2>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="text-xs text-slate-500 bg-slate-800/50 px-3 py-1.5 rounded-lg border border-slate-700/50" id="ruc-badge">
+            <i class="fas fa-building text-blue-400 mr-1.5"></i>
+            <span id="header-ruc">---</span>
+          </span>
+          <div class="flex items-center gap-2 text-xs text-slate-500">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="sri-env-badge">Pruebas</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="flex-1 overflow-y-auto p-6" id="main-content">
+        <!-- Dynamic content loaded by app.js -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Mobile sidebar overlay -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
